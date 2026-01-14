@@ -13,29 +13,29 @@ on:
 
 jobs:
   hackers-api:
-    if: ${{ fromJSON(inputs.manifest)['hackers-api']['ldonleycb/hackers-api'].deploy }}
-    uses: cloudbees-days/hackers-api/.cloudbees/workflows/deploy.yaml
+    if: ${{ fromJSON(inputs.manifest)['hackers-api']['jamesalts/hackers-api'].deploy }}
+    uses: jalts-808/j-hackers-api/.cloudbees/workflows/deploy.yaml
     with:
-      artifactVersion: ${{ fromJSON(inputs.manifest)['hackers-api']['ldonleycb/hackers-api'].version }}
-      artifact-id: ${{ fromJSON(inputs.manifest)['hackers-api']['ldonleycb/hackers-api'].id }}
+      artifactVersion: ${{ fromJSON(inputs.manifest)['hackers-api']['jamesalts/hackers-api'].version }}
+      artifact-id: ${{ fromJSON(inputs.manifest)['hackers-api']['jamesalts/hackers-api'].id }}
       environment: ${{ inputs.environment }}
     secrets: inherit
     vars: inherit
   hackers-auth:
-    if: ${{ fromJSON(inputs.manifest)['hackers-auth']['ldonleycb/hackers-auth'].deploy }}
-    uses: cloudbees-days/hackers-auth/.cloudbees/workflows/deploy.yaml
+    if: ${{ fromJSON(inputs.manifest)['hackers-auth']['jamesalts/hackers-auth'].deploy }}
+    uses: jalts-808/j-hackers-auth/.cloudbees/workflows/deploy.yaml
     with:
-      artifactVersion: ${{ fromJSON(inputs.manifest)['hackers-auth']['ldonleycb/hackers-auth'].version }}
-      artifact-id: ${{ fromJSON(inputs.manifest)['hackers-auth']['ldonleycb/hackers-auth'].id }}
+      artifactVersion: ${{ fromJSON(inputs.manifest)['hackers-auth']['jamesalts/hackers-auth'].version }}
+      artifact-id: ${{ fromJSON(inputs.manifest)['hackers-auth']['jamesalts/hackers-auth'].id }}
       environment: ${{ inputs.environment }}
     secrets: inherit
     vars: inherit
   hackers-web:
-    if: ${{ fromJSON(inputs.manifest)['hackers-web']['ldonleycb/hackers-web'].deploy }}
-    uses: cloudbees-days/hackers-web/.cloudbees/workflows/deploy.yaml
+    if: ${{ fromJSON(inputs.manifest)['hackers-web']['jamesalts/hackers-web'].deploy }}
+    uses: jalts-808/j-hackers-web/.cloudbees/workflows/deploy.yaml
     with:
-      artifactVersion: ${{ fromJSON(inputs.manifest)['hackers-web']['ldonleycb/hackers-web'].version }}
-      artifact-id: ${{ fromJSON(inputs.manifest)['hackers-web']['ldonleycb/hackers-web'].id }}
+      artifactVersion: ${{ fromJSON(inputs.manifest)['hackers-web']['jamesalts/hackers-web'].version }}
+      artifact-id: ${{ fromJSON(inputs.manifest)['hackers-web']['jamesalts/hackers-web'].id }}
       environment: ${{ inputs.environment }}
     secrets: inherit
     vars: inherit
