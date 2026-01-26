@@ -94,17 +94,17 @@ jobs:
         name: Checkout Hackers Web
         id: checkout-hackers-web
         with:
-          repository: cloudbees-days/hackers-web
+          repository: jalts-808/j-hackers-web
       - uses: https://github.com/cloudbees-io/checkout@v1
         name: Checkout Hackers Auth
         id: checkout-hackers-auth
         with:
-          repository: cloudbees-days/hackers-auth
+          repository: jalts-808/j-hackers-auth
       - uses: https://github.com/cloudbees-io/checkout@v1
         name: Checkout Hackers API
         id: checkout-hackers-api
         with:
-          repository: cloudbees-days/hackers-api
+          repository: jalts-808/j-hackers-api
       - name: Format issues as table
         uses: docker://alpine:3.19
         id: format-issues
@@ -317,7 +317,7 @@ jobs:
   deploy-to-qa:
     needs:
       - approval
-    uses: cloudbees-days/hackers-app/.cloudbees/workflows/deployer.yaml
+    uses: jalts-808/j-hackers-app/.cloudbees/workflows/deployer.yaml
     with:
       manifest: ${{ inputs.manifest }}
       environment: hackers-qa
@@ -651,7 +651,7 @@ jobs:
   deploy-to-staging:
     needs:
       - release-manager-approval
-    uses: cloudbees-days/hackers-app/.cloudbees/workflows/deployer.yaml
+    uses: jalts-808/j-hackers-app/.cloudbees/workflows/deployer.yaml
     with:
       manifest: ${{ inputs.manifest }}
       environment: hackers-staging
@@ -1015,7 +1015,7 @@ jobs:
   deploy-to-prod:
     needs:
       - wait-for-snow-change-request
-    uses: cloudbees-days/hackers-app/.cloudbees/workflows/deployer.yaml
+    uses: jalts-808/j-hackers-app/.cloudbees/workflows/deployer.yaml
     with:
       manifest: ${{ inputs.manifest }}
       environment: hackers-prod
