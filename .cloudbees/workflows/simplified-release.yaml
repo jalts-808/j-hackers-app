@@ -48,7 +48,6 @@ jobs:
             ## Simplified Release Initiated
 
             **Release Run:** ${{ cloudbees.run_number }}
-            **Triggered By:** ${{ cloudbees.triggering_user }}
 
             ### Deployment Manifest
             ```json
