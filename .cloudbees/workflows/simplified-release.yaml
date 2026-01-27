@@ -255,7 +255,7 @@ jobs:
         id: config-update
         with:
           token: ${{ secrets.UNIFY_TOKEN }}
-          org-id: ${{ vars.ORG_ID }}
+          org-id: eb3ae95d-a459-4f0a-ac58-57d752e4a373
           application-name: hackers-app
           environment-name: j-hackers-k3s
           flag-name: default.score
