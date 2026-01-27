@@ -30,18 +30,14 @@ metadata:
 jobs:
   parse-manifest:
     steps:
-      - name: Parse manifest and display deployment info
+      - name: Display deployment info
         uses: docker://alpine:3.20
-        env:
-          MANIFEST: ${{ inputs.manifest }}
         run: |
-          apk add --no-cache jq
-          echo "=== Deployment Manifest ==="
-          echo "$MANIFEST" | jq .
-
+          echo "=== Simplified Release Pipeline ==="
+          echo "Deploying components to staging, then production after approval."
           echo ""
-          echo "=== Components to Deploy ==="
-          echo "$MANIFEST" | jq -r 'to_entries[] | "\(.key): version \(.value | to_entries[0].value.version)"'
+          echo "Components configured via manifest input."
+          echo "Check Evidence tab for full manifest details."
       - name: Publish staging deployment evidence
         uses: cloudbees-io/publish-evidence-item@v1
         with:
