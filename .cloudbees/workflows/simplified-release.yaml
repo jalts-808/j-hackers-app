@@ -67,7 +67,7 @@ jobs:
     uses: jalts-808/j-hackers-app/.cloudbees/workflows/deployer.yaml
     with:
       manifest: ${{ inputs.manifest }}
-      environment: hackers-staging
+      environment: j-hackers-staging
     secrets: inherit
     vars: inherit
 
@@ -151,12 +151,12 @@ jobs:
     uses: jalts-808/j-hackers-app/.cloudbees/workflows/deployer.yaml
     with:
       manifest: ${{ inputs.manifest }}
-      environment: hackers-prod
+      environment: j-hackers-k3s
     secrets: inherit
     vars: inherit
 
   run-smoke-tests:
-    environment: hackers-prod
+    environment: j-hackers-k3s
     needs:
       - deploy-to-prod
     outputs:
@@ -229,7 +229,7 @@ jobs:
           format: MARKDOWN
 
   enable-feature-flags:
-    environment: hackers-prod
+    environment: j-hackers-k3s
     needs:
       - run-smoke-tests
     steps:
@@ -257,7 +257,7 @@ jobs:
           token: ${{ secrets.UNIFY_TOKEN }}
           org-id: ${{ vars.ORG_ID }}
           application-name: hackers-app
-          environment-name: hackers-prod
+          environment-name: j-hackers-k3s
           flag-name: default.score
           use-org-as-app: true
           flag-config: |
@@ -276,7 +276,7 @@ jobs:
             ## Feature Flag Rollout Configured
 
             **Flag:** default.score
-            **Environment:** hackers-prod
+            **Environment:** j-hackers-k3s
 
             ### Progressive Rollout Schedule
             | Time | Percentage |
