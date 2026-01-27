@@ -26,7 +26,6 @@ metadata:
       jobs:
         - deploy-to-prod
         - run-smoke-tests
-        - enable-feature-flags
 
 jobs:
   parse-manifest:
@@ -58,7 +57,7 @@ jobs:
             1. Deploy to Staging
             2. Manual Approval
             3. Deploy to Production
-            4. Feature Flag Rollout
+            4. Smoke Tests
           format: MARKDOWN
 
   deploy-to-staging:
@@ -226,63 +225,11 @@ jobs:
             | Auth | http://hackers-auth.54.201.69.176.nip.io | ${{ steps.health-check.outputs.status }} |
 
             **Overall Status**: ${{ steps.health-check.outputs.status }}
+
+            ---
+            **Release Complete** ✓
           format: MARKDOWN
 
-  enable-feature-flags:
-    environment: j-hackers-k3s
-    needs:
-      - run-smoke-tests
-    steps:
-      - name: Get current time for rollout schedule
-        id: current-time
-        uses: docker://alpine:3.20
-        run: |
-          apk add --no-cache coreutils
-          NOW=$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")
-          ONE_HOUR=$(date -u -d "+1 hour" +"%Y-%m-%dT%H:%M:%S.000Z" 2>/dev/null || date -u +"%Y-%m-%dT%H:%M:%S.000Z")
-          TWO_HOURS=$(date -u -d "+2 hours" +"%Y-%m-%dT%H:%M:%S.000Z" 2>/dev/null || date -u +"%Y-%m-%dT%H:%M:%S.000Z")
-
-          echo "$NOW" > $CLOUDBEES_OUTPUTS/now
-          echo "$ONE_HOUR" > $CLOUDBEES_OUTPUTS/one-hour
-          echo "$TWO_HOURS" > $CLOUDBEES_OUTPUTS/two-hours
-
-          echo "Rollout schedule:"
-          echo "  Now: $NOW (10%)"
-          echo "  +1h: $ONE_HOUR (50%)"
-          echo "  +2h: $TWO_HOURS (100%)"
-      - name: Progressive feature flag rollout
-        uses: https://github.com/cloudbees-days/fm-update-flag
-        id: config-update
-        continue-on-error: true
-        with:
-          token: ${{ secrets.UNIFY_TOKEN }}
-          org-id: eb3ae95d-a459-4f0a-ac58-57d752e4a373
-          application-name: hackers-app
-          environment-name: j-hackers-k3s
-          flag-name: default.score
-          use-org-as-app: true
-          flag-config: |
-            enabled: true
-            defaultValue:
-            - from: ${{ steps.current-time.outputs.now }}
-              percentage: 10
-            - from: ${{ steps.current-time.outputs.one-hour }}
-              percentage: 50
-            - from: ${{ steps.current-time.outputs.two-hours }}
-              percentage: 100
-      - name: Publish Feature Flag Evidence
-        uses: cloudbees-io/publish-evidence-item@v1
-        with:
-          content: |
-            ## Release Complete
-
-            **Production deployment successful.**
-
-            ### Feature Flag Status
-            Flag rollout step completed (check step output for details).
-
-            If UNIFY_TOKEN secret is configured, progressive rollout was applied:
-            - Now: 10%
-            - +1 hour: 50%
-            - +2 hours: 100%
-          format: MARKDOWN
+  # NOTE: Feature flag rollout job removed - requires UNIFY_TOKEN secret
+  # To re-enable, add UNIFY_TOKEN to j-hackers-k3s environment secrets
+  # and uncomment enable-feature-flags job from full-release.yaml
